@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Text Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Signika:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+           
+            background-color: #f8f9fa;
+            padding-top: 50px;
+            margin: 0;
+        
+            font-family: 'Signika', sans-serif;
+            background-color: #f8f9fa;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        #inputText,
+        #output {
+            resize: none;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .btn-group button {
+            flex: 1;
+            margin: 10px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .swal2-popup {
+            animation: fadeInDown 0.5s;
+        }
+
+        .swal2-popup.swal2-toast.swal2-show {
+            animation: fadeOutUp 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Chinese Text Generator</h1>
+
+    <form>
+        <div class="form-group">
+            <label for="inputText">Enter Text:</label>
+            <textarea id="inputText" rows="3" class="form-control" placeholder="Type your text here..."></textarea>
+        </div>
+
+        <div class="form-group btn-group">
+            <button type="button" class="btn btn-primary" onclick="generateText()"><i class="fas fa-magic"></i> Generate</button>
+<button type="button" class="btn btn-success" onclick="copyText()"><i class="far fa-copy"></i> Copy</button>
+<button type="button" class="btn btn-danger" onclick="clearText()"><i class="fas fa-trash-alt"></i> Clear</button>
+
+        </div>
+    </form>
+
+    <div class="form-group">
+        <label for="output">Generated Chinese Text:</label>
+        <textarea id="output" rows="5" class="form-control" readonly></textarea>
+    </div>
+    <div class="form-group btn-group">
+        <button type="button" class="btn btn-primary" onclick="generateText()"><i class="fas fa-magic"></i> Generate</button>
+<button type="button" class="btn btn-success" onclick="copyText()"><i class="far fa-copy"></i> Copy</button>
+<button type="button" class="btn btn-danger" onclick="clearText()"><i class="fas fa-trash-alt"></i> Clear</button>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@sweetalert2/1.0.1/dist/sweetalert2.all.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/animate.css"></script>
+
+<script>
+    const chineseTextFont = {
+       "name":"chinese text font",
+	   "characters":{
+		  "0":"0",
+		  "1":"1",
+		  "2":"2",
+		  "3":"3",
+		  "4":"4",
+		  "5":"5",
+		  "6":"6",
+		  "7":"7",
+		  "8":"8",
+		  "9":"9",
+		  "a":"诶",
+		  "b":"必",
+		  "c":"西",
+		  "d":"弟",
+		  "e":"衣",
+		  "f":"艾付",
+		  "g":"记",
+		  "h":"爱耻",
+		  "i":"挨",
+		  "j":"宅",
+		  "k":"开",
+		  "l":"饿罗",
+		  "m":"艾马",
+		  "n":"恩",
+		  "o":"呕",
+		  "p":"披",
+		  "q":"酷",
+		  "r":"耳",
+		  "s":"艾斯",
+		  "t":"踢",
+		  "u":"忧",
+		  "v":"维",
+		  "w":"大波留",
+		  "x":"埃克斯",
+		  "y":"歪",
+		  "z":"再得",
+		  "A":"诶",
+		  "B":"必",
+		  "C":"西",
+		  "D":"弟",
+		  "E":"衣",
+		  "F":"艾付",
+		  "G":"记",
+		  "H":"爱耻",
+		  "I":"挨",
+		  "J":"宅",
+		  "K":"开",
+		  "L":"饿罗",
+		  "M":"艾马",
+		  "N":"恩",
+		  "O":"呕",
+		  "P":"披",
+		  "Q":"酷",
+		  "R":"耳",
+		  "S":"艾斯",
+		  "T":"踢",
+		  "U":"忧",
+		  "V":"维",
+		  "W":"大波留",
+		  "X":"埃克斯",
+		  "Y":"歪",
+		  "Z":"再得"
+	   
+        }
+    };
+
+    function generateText() {
+        const inputText = document.getElementById('inputText').value.trim();
+
+        if (inputText === "") {
+            alert("Please enter text.");
+            return;
+        }
+
+        const generatedText = inputText.split('').map(char => chineseTextFont.characters[char] || char).join('');
+        document.getElementById('output').value = generatedText;
+    }
+
+    function copyText() {
+        const outputElement = document.getElementById('output');
+        outputElement.select();
+        document.execCommand('copy');
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Copied! 🚀',
+            showClass: {
+                popup: 'animated fadeInDown faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOutUp faster'
+            },
+            text: 'The text has been copied to the clipboard.',
+        });
+    }
+
+    function clearText() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('output').value = '';
+    }
+</script>
+
+</body>
+</html>
